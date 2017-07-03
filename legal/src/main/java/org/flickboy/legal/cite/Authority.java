@@ -1,0 +1,32 @@
+/**
+ * @author David E. Blau, Esq.
+ */
+package org.flickboy.legal.cite;
+
+import java.util.Set;
+
+import org.flickboy.legal.cite.Reporter.BranchOfGov;
+
+/**
+ * A legal authority, such as a law, regulation, or judicial opinion.
+ */
+public interface Authority
+{
+	/**
+	 * @return the {@link Jurisdiction} that provided this {@link Authority}
+	 */
+	default Jurisdiction getJurisdiction()
+	{
+		return getReporters().iterator().next().getJurisdiction();
+	}
+
+	/**
+	 * @return the {@link BranchOfGov} responsible for providing this {@link Authority}
+	 */
+	default BasicReporter.BranchOfGov getBranchOfGov()
+	{
+		return getReporters().iterator().next().getBranchOfGov();
+	}
+
+	Set<BasicReporter> getReporters();
+}
