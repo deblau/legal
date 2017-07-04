@@ -5,28 +5,38 @@ package org.flickboy.legal.cite;
 
 import java.util.Set;
 
+import org.flickboy.legal.Configured;
+
 /**
  * A representation of an official, legal publication.
  */
-public interface Reporter
+public interface Reporter extends Configured
 {
 	/**
 	 * Branches of government to which this publication may refer.
 	 */
-	enum BranchOfGov
-	{
+	enum BranchOfGov {
 		LEGISLATIVE, EXECUTIVE, JUDICIAL
 	}
 
 	/**
 	 * Types of reported content.
 	 */
-	enum Content
-	{
+	enum Content {
 		/**
 		 * Official work product of a deliberative body (e.g. a bill or ordinance).
 		 */
-		ACT,
+		LAW,
+
+		/**
+		 * Official work product of a regulatory body
+		 */
+		REGULATION,
+
+		/**
+		 * A judicial opinion or precedent.
+		 */
+		JUDGMENT,
 
 		/**
 		 * An extract of another legal document.
@@ -37,11 +47,6 @@ public interface Reporter
 		 * An issue of a regular, official publication.
 		 */
 		GAZETTE,
-
-		/**
-		 * A judicial opinion or precedent.
-		 */
-		JUDGMENT,
 
 		/**
 		 * Minutes of a deliberative body.
@@ -80,13 +85,9 @@ public interface Reporter
 	Set<Content> getContentTypes();
 
 	/**
-	 * @param <T>
-	 *            data required to be provided when creating an {@link Authority}
-	 * @param <U>
-	 *            an implementation of {@link AuthorityInfo} that stores these data
-	 * @param AuthorityInfo
-	 *            information needed to build an {@link Authority} for this {@link Reporter}
-	 * @return the new {@link Authority}
+	 * @param info
+	 *            information needed to find an {@link Authority} for this {@link Reporter}
+	 * @return the {@link Authority}
 	 */
-	<T, U extends AuthorityInfo<T>> Authority buildAuthority(U info);
+	Authority findAuthority(SearchInfo info);
 }
